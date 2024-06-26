@@ -53,3 +53,9 @@ if t_is_lessthan and mod_is_prime:
     print("people shares: ")
     for share in shares:
         print(f"x: {share[0]}, y: {share[1]}")
+
+    print(f"\nEnter at least {t} shares to restore the secret:")
+    entered_shares = []
+    for i in range(t):
+        x, y = map(int, input(f"share ({i + 1}) [x y]: ").split())
+        entered_shares.append((x, y))
