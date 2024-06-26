@@ -28,6 +28,38 @@ def calculate_y(zarib, x, MOD, secret):
 
 
 
+def mod_inverse(a, MOD):
+    m0 = MOD
+    x0, x1 = 0, 1
+    if MOD == 1:
+        return 0
+    while a > 1:
+        q = a // MOD
+        t = MOD
+        MOD = a % MOD
+        a = t
+        t = x0
+        x0 = x1 - q * x0
+        x1 = t
+    if x1 < 0:
+        x1 += m0
+    return x1
+
+
+def restore_secret(shares, MOD):
+    secret = 0
+    k = len(shares)
+    for i in range(k):
+        xi, yi = shares[i]
+        term = yi
+        for j in range(k):
+            if i != j:
+                xj = shares[j][0]
+                term *= xj
+                term *= mod_inverse((xj - xi)% MOD , MOD)
+        secret += term
+    secret %= MOD
+    return secret
 
 
 
@@ -59,3 +91,6 @@ if t_is_lessthan and mod_is_prime:
     for i in range(t):
         x, y = map(int, input(f"share ({i + 1}) [x y]: ").split())
         entered_shares.append((x, y))
+
+    restored_secret = restore_secret(entered_shares, MOD)
+    print(f"restored secret: {restored_secret}")
