@@ -16,13 +16,13 @@ def create_share(secret, n, t, MOD):
 
 
 def calculate_y(zarib, x, MOD, secret):
-    result = 0
+    res = 0
     power = 0
     for zari in zarib:
         now = 1
         for i in range(power):
             now= now * x
-        result = result + (zari * now) 
+        result = res + (zari * now) 
         power = power + 1
     return result % MOD
 
